@@ -6,7 +6,6 @@ name: CI
 on:
   # Triggers the workflow on push or pull request events but only for the main branch
   push:
-    branches: [ main ]
     paths-ignore:
       - '_minutes/**'
   pull_request:
@@ -39,7 +38,7 @@ jobs:
       # Runs a set of commands using the spec-prod (https://w3c.github.io/spec-prod/)
       # the document is built and validated as a check in the pull request.
       # the document is built and validated, and then deployed to gh-pages branch, when a commit is pushed to the main branch.
-      - uses: w3c/spec-prod@v2
+      - uses: oliverdunk/spec-prod@v1
         with:
           GH_PAGES_BRANCH: gh-pages
           # Deployment will be available at: https://w3c.github.io/webextensions/specification
