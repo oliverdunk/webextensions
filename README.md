@@ -1,4 +1,4 @@
-The charter of the WebExtensions Community Group (WECG).
+The charter of the WebExtensions Community Group (WECG)!
 
 🏅 Charter: https://github.com/w3c/webextensions/blob/main/charter.md
 
