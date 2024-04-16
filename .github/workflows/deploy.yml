@@ -28,7 +28,9 @@ jobs:
       matrix:
         include:
           - source: ./specification/index.bs
+            name: main
           - source: ./specification/window.browser.bs
+            name: window.browser
 
     # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
@@ -38,9 +40,10 @@ jobs:
       # Runs a set of commands using the spec-prod (https://w3c.github.io/spec-prod/)
       # the document is built and validated as a check in the pull request.
       # the document is built and validated, and then deployed to gh-pages branch, when a commit is pushed to the main branch.
-      - uses: oliverdunk/spec-prod@v1
+      - uses: oliverdunk/spec-prod@v2
         with:
           GH_PAGES_BRANCH: gh-pages
           # Deployment will be available at: https://w3c.github.io/webextensions/specification
           SOURCE: ${{ matrix.source }}
           TOOLCHAIN: 'bikeshed'
+          ARTIFACT_NAME: ${{ matrix.name }}
