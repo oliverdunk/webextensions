@@ -295,7 +295,7 @@ To determine the URL to use for a document when injecting a content script:
     1. Set |url| to a URL based on the precursor origin.
 1. If the [=scheme=] of |url| is `data` and `match_origin_as_fallback` is set to `true`:
     1. Set |url| to be a URL based on the precursor origin.
-1. If the [=scheme=] of |url| is `filesystem` or `blob` and `match_origin_as_fallback` is set to `true`:
+1. If the [=scheme=] of |url| is `blob` or `filesystem`, and `match_origin_as_fallback` is set to `true`:
     1. Set |url| to be a URL based on the precursor origin.
 1. Return |url|.
 
