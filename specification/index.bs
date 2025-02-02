@@ -291,13 +291,22 @@ The {{ExecutionWorld}} enum represents a JavaScript [=world=].
 To determine the URL to use for a document when injecting a content script:
 
 1. Let |url| be the document's URL.
-1. If |url| is `about:blank` or `about:srcdoc`, and `match_about_blank` or `match_origin_as_fallback` is set to `true`:
-    1. Set |url| to a URL based on the precursor origin.
-1. If the [=scheme=] of |url| is `data` and `match_origin_as_fallback` is set to `true`:
-    1. Set |url| to be a URL based on the precursor origin.
-1. If the [=scheme=] of |url| is `blob` or `filesystem`, and `match_origin_as_fallback` is set to `true`:
-    1. Set |url| to be a URL based on the precursor origin.
-1. Return |url|.
+1. If the [=scheme=] of |url| is `http`, `https` or `file`:
+    1. Return |url|.
+1. Let |precursor-origin| be null.
+1. If `match_origin_as_fallback` is set to `true`:
+    1. If |url| is `about:blank` or `about:srcdoc`:
+        1. Set |precursor-origin| to be a URL based on the precursor origin.
+    1. If the [=scheme=] of |url| is `blob`:
+        1. Set |precursor-origin| to be a URL based on the precursor origin.
+    1. If the [=scheme=] of |url| is `blob`, `data` or `filesystem`:
+        1. Set |precursor-origin| to be a URL based on the precursor origin.
+1. Else, if `match_about_blank` is set to `true`:
+    1. If |url| is `about:blank` or `about:srcdoc`:
+        1. Set |precursor-origin| to be: TODO
+1. If |precursor-origin| is not null and the [=scheme=] of |precursor-origin| is `http`, `https` or `file`:
+    1. Return |precursor-origin|.
+1. Return null.
 
 ## Inject a content script
 
@@ -306,9 +315,14 @@ Issue: If the same extension specifies the same script twice, what should happen
 To determine if a content script should be injected in a document:
 
 1. Let |url| be the result of running [[#determine-the-url-for-content-script-matching]].
-1. If the extension does not have access to the origin, return.
+1. If the extension does not have access to |url|, return.
 1. If |url| is not matched by a match pattern in `matches`, return.
 1. If `include_globs` is present and |url| is not matched by any glob pattern, return.
 1. If |url| matches an entry in `exclude_matches` or `exclude_globs`, return.
 1. If this is a child frame, and `all_frames` is not `true`, return.
 1. Otherwise, inject the content script. This should be done based on the `run_at` setting.
+
+##
+
+- Define precursor origin
+- Match by path for `match_about_blank`
